@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>City weather 2014</title>
+<link rel="stylesheet" type="text/css" href="index.css">
+
+</head>
+<body>
+<div id="body">
+  <h1>City weather</h1>
+  <h2>San Francisco</h2>
+  <div id="chart">
+    <svg id="rayChart"
+      xmlns="http://www.w3.org/2000/svg" 
+      xmlns:xlink="http://www.w3.org/1999/xlink" >
+    </svg>
+  </div>
+  <div id="legend">
+    <div id="date"></div>
+    <div id="tmax"></div>
+    <div id="tave"></div>
+    <div id="tmin"></div>
+  </div>
+</div>
+
+<script src="/lib/zepto.js"></script>
+<script src="/lib/lodash.js"></script>
+<script src="/lib/d3.js"></script>
+<script type="text/javascript" src="bundle.js"></script>
+</body></html>
