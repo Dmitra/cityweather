@@ -1,12 +1,38 @@
-#City weather year visualization
+#City weather data visualization
+A beautiful weather data shows you what it feels like in different places all over the world for a whole year.
 
-##Demo
-[Dmitra.com](http://dmitra.com/vis/runstat/)
-![Snapshot](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/sanfrancisco.jpg)
+Choose climate station on the map and see the weather shot. It consists of 365 bars laying on the temperature scale. Bar base (closer to center) - is lowest day temperature, and top - highest. The color of bar shows the mean.
+
+##Live Demo
+[Click on image for live demo ![Live demo](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/sanfrancisco.jpg)](http://dmitra.com/vis/cityweather)
 
 ##Roadmap
-###Interactivity
-  * AngularJS for weather interactive map
-  * Map city selection (divide map to areas by available data from ghcn
+###Feature
+####Data visualization
+  * Temperature
+    * Bar for min, max
+    * Graph for average
+    * Color coding for average
+  * Precipitation
+  * Wind/Air stagnation
+    * speed: peak, avg
+    * direction (avg) 
+  * Humidity
+  * Sun
+    * Insolation
+    * daylight/night time
+    * sunshine/cloudy
+
+####Interactive
+  * city selection on the map
   * visualization transformation on city selection
-  * Realtime Vis on daily data from ghcn
+  * Compare cities
+  * Realtime visualizaion on daily data from NOAA
+
+###Improvement
+  * Choose font for visualization
+  * Calibrate temperature colors
+  * Center month label
+  * Draw axis at year start
+  * Bold zero celcius radial tick
+
