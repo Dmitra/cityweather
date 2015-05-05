@@ -1,0 +1,34 @@
+$brand-primary: #aaa;
+$center-x: 300px;
+$center-y: 400px;
+$chart-width: 800px;
+
+@import "map.scss";
+@import "chart.scss";
+
+body {
+  margin: 0;
+  font-size: 62.5%;
+  font-family: "Helvetica Neue", Helvetica;
+  color: $brand-primary;
+}
+h1 {
+  font-size: 4em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+#header {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0px;
+  right: 20px;
+  font-size: 1.6em;
+  line-height: 1.4em;
+}
+

@@ -1,0 +1,49 @@
+#chart {
+  overflow: hidden;
+  margin: auto;
+  #city {
+    position: relative;
+    top: $center-y;
+    left: $center-x - 100px;
+    font-size: 5em;
+    height: 0px;
+  }
+  #legend {
+    position: relative;
+    top: $center-y;
+    left: $center-x - 100px;
+    font-size: 1.5em;
+    line-height: 1.2em;
+    height: 0px;
+  }
+}
+path, circle {
+  fill:none;
+  stroke:grey;
+}
+.labelLabels {
+  font-size: 10px;
+  font-weight: bold;
+  text-anchor: start;
+  margin-left: 10px;
+}
+.axisTempAxis {
+  stroke-width: 0.5px;
+}
+.axis text {
+  font: 10px sans-serif;
+}
+.barTemperature {
+  stroke-width: 2px;
+}
+.graphMediana, .gridLineTempGrid {
+  stroke: rgba(0, 0, 0, 0.21)
+}
+.labelMonths {
+  font-size: 1.1em;
+  text-anchor: start;
+  color: grey;
+}
+.highlight {
+  stroke-width: 4px;
+}

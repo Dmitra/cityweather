@@ -1,8 +1,8 @@
 {
   "name": "cityweather",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Visualization of year city weather data",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.org/Dmitra/cityweather.git"
@@ -15,18 +15,25 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "scripts": {
-    "start": "python.exe -m SimpleHTTPServer",
-    "build-min": "browserify index.js | uglifyjs -c > bundle.js",
-    "watch-js": "watchify index.js -d -o bundle.js -v"
+    "start": "static",
+    "build-css": "node-sass scss/index.scss bundle.css",
+    "build-min": "browserify src/index.js | uglifyjs -c > bundle.js",
+    "build-lib": "browserify dependencies.js | uglifyjs -c > lib.js",
+    "watch-js": "watchify src/index.js -d -o bundle.js -v",
+    "watch-css": "nodemon -e scss -x \"bash -c 'npm run build-css'\""
   },
   "dependencies": {
     "d3": "<=3.5.0",
     "d3-transform": "latest",
+    "jquery": "latest",
     "lodash": "<=3.5.0",
     "plusjs": "https://github.com/Dmitra/plusjs.git"
   },
   "devDependencies": {
+    "node-static": "latest",
+    "node-sass": "latest",
     "browserify": "<=8.1.3",
-    "watchify": "latest"
+    "watchify": "latest",
+    "nodemon": "=1.1.1"
   }
 }
