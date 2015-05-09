@@ -1,6 +1,30 @@
+@include keyframes(fade-in) {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 #chart {
+  display: none;
   overflow: hidden;
-  margin: auto;
+  background: rgba(100, 100, 100, 0.7);
+  background: radial-gradient(
+    rgba(255, 255, 255, 1)
+  , rgba(255, 255, 255, 0.85) 55%
+  , rgba(255, 255, 255, 0) 71%
+  );
+  width: 800px;
+  height: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -400px;
+  margin-left: -400px;
+  border-radius: 400px;
+  opacity: 0;
+
   #city {
     position: relative;
     top: $center-y;
@@ -15,6 +39,13 @@
     font-size: 1.5em;
     line-height: 1.2em;
     height: 0px;
+  }
+
+  &.fade-in {
+    display: block;
+    @include animation-name(fade-in);
+    @include animation-duration(1s);
+    @include animation-fill-mode(forwards);
   }
 }
 path, circle {

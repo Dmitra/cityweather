@@ -8,13 +8,14 @@ $chart-width: 800px;
 
 $header-height: 100px;
 
+@import "node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
 @import "map.scss";
 @import "chart.scss";
 
 body {
   margin: 0;
   font-size: 62.5%;
-  font-family: "Helvetica Neue", Helvetica;
+  font-family: $helvetica;
   color: $primary-color;
 }
 h1 {

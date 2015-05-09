@@ -19,6 +19,10 @@ var Self = function (container) {
     .attr('height', self.height)
 }
 
+Self.prototype.show = function () {
+  this.container.classed('fade-in', true)
+}
+
 Self.prototype.draw = function (data) {
   var self = this
 

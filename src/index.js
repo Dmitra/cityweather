@@ -15,12 +15,13 @@ var Self = function (options) {
   })
 
   d3.select('#map').delegate('click', '.station', self._onStationClick.bind(self))
-  var chartContainer = d3.select(self.map.map.getPanes().overlayPane)
-  self.chart = new Chart(chartContainer)
+  //var chartContainer = d3.select(self.map.map.getPanes().overlayPane)
+  self.chart = new Chart(d3.select('#chart'))
 }
 
 Self.prototype.load = function (id, year) {
   var self = this
+  self.chart.show()
   d3.text('data/' + (year || self.year) + '/' + (id || self.station) + '.csv', function (data) {
     data = "date,attr,value,a,b,c,d\n" + data
     self._onLoad(self.parse(d3.csv.parse(data)))
@@ -67,6 +68,6 @@ window.app = new Self({
 , center: [37.76487, -122.41948]
 })
 
-setTimeout(function () {
-  app.load()
-}, 1000)
+//setTimeout(function () {
+  //app.load()
+//}, 3000)
