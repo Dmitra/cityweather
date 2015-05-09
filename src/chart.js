@@ -5,42 +5,30 @@ var gridLine = require('plusjs/src/svg/radial/gridLine')
 var graphDraw = require('plusjs/src/svg/graph')
 var radialLabel = require('plusjs/src/svg/radial/label')
 
-var Self = function () {
+var Self = function (container) {
   var self = this
 
-  var width = 800, height = 800;
-  self.container = d3.select('chart')
+  self.width = 800
+  self.height = 800;
+  self.container = container
   self.vis = self.container.append('svg')
     .attr('id', 'rayChart')
     //.attr('xmlns', "http://www.w3.org/2000/svg")
     //.attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
-    .attr('width', width)
-    .attr('height', height)
+    .attr('width', self.width)
+    .attr('height', self.height)
 }
 
 Self.prototype.draw = function (data) {
-  Data = data
+  var self = this
 
-  //TODO use crossfilter for RAW data
-  //Transform ghcn data excerpt
-  //w = {}
-  //data.map(function (d) {
-  //w[d.date] = w[d.date] || {}
-  //w[d.date].date = d.date
-  //w[d.date][d.attr] = parseInt(d.value)
-  //})
-  //var a = d3.csv.format(_.toArray(w))
-  
-  var dateFormatter = d3.time.format('%Y%m%d')
-  var datesDomain = d3.extent(data.map(function(d) {
-    return dateFormatter.parse(d.DATE);
-  }))
+  var datesDomain = d3.extent(_.pluck(data, 'date'))
 
   //Config
   //---------------------------------------------------------------------------------
   var config = {
     target: self.vis,
-    size: [width, height],
+    size: [self.width, self.height],
   }
   var yearRange = [0,365]
   var positionScaler = d3.time.scale()
@@ -73,31 +61,31 @@ Self.prototype.draw = function (data) {
   var configTemp = _.extend({}, config, {
     name: 'Temperature',
     positionRange: yearRange,
-    position: function (d) { return positionScaler(dateFormatter.parse(d.DATE)) },
+    position: function (d) { return positionScaler(d.date) },
     value: {
-      start: function (d) { return +d.TMIN/10 },
-      end: function (d) { return +d.TMAX/10 },
+      start: function (d) { return d.tmin },
+      end: function (d) { return d.tmax },
     },
     domain: [-40, 40],
-    range: [0, width/2*.8],
-    color: function (d) { return tempPainter((+d.TMIN + +d.TMAX)/2/10) },
+    range: [0, self.width/2*.8],
+    color: function (d) { return tempPainter((d.tmin + d.tmax)/2) },
   })
   var configGrid = _.extend({}, config, {
     name: 'TempGrid',
-    center: [width/2, height/2],
+    center: [self.width/2, self.height/2],
     domain: [-40, 40],
-    range: [0, width/2*.8],
+    range: [0, self.width/2*.8],
     step: 10,
     sectors: 12,
     sectorSize: 0.9,
   })
   var tempScaler = d3.scale.linear()
     .domain([-40, 40])
-    .range([0, width/2*.8])
+    .range([0, self.width/2*.8])
   var configGraph = _.extend({}, config, {
     name: 'Mediana',
-    position: function (d) { return positionScaler(dateFormatter.parse(d.DATE)) },
-    radius: function (d) { return tempScaler((+d.TMIN + +d.TMAX)/2/10) },
+    position: function (d) { return positionScaler(d.date) },
+    radius: function (d) { return tempScaler((d.tmin + d.tmax)/2) },
     interpolate: 'basis-closed',
     tension: 0.5,
   })
@@ -159,10 +147,10 @@ Self.prototype.draw = function (data) {
 
   function interactive () {
     function showLegend(d) {
-      document.querySelector('#legend>#date').html = d3.time.format('%d %b')(dateFormatter.parse(d.DATE))
+      document.querySelector('#legend>#date').html = d3.time.format('%d %b')(d.date)
       document.querySelector('#legend>#tmax').html = configTemp.value.start(d) + ' C'
       document.querySelector('#legend>#tmin').html = configTemp.value.end(d) + ' C'
-      document.querySelector('#legend>#tave').html = (+d.TMIN + +d.TMAX)/2/10
+      document.querySelector('#legend>#tave').html = (d.tmin + d.tmax)/2
     }
     function highlight(d) {
       d3.select(d).classed('highlight', !d.classList.contains('highlight'))

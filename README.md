@@ -9,11 +9,11 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
 ##Roadmap
 ###Feature
 ####Data visualization
-  * Temperature
-    * Bar for min, max
-    * Graph for average
-    * Color coding for average
-  * Precipitation
+  + Temperature
+    + Bar for min, max
+    + Graph for average
+    + Color coding for average
+  - Precipitation
   * Wind/Air stagnation
     * speed: peak, avg
     * direction (avg) 
@@ -24,15 +24,17 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * sunshine/cloudy
 
 ####Interactive
-  * city selection on the map
+  + city selection on the map
   * visualization transformation on city selection
   * Compare cities
   * Realtime visualizaion on daily data from NOAA
 
 ###Improvement
-  * Choose font for visualization
-  * Calibrate temperature colors
-  * Center month label
-  * Draw axis at year start
-  * Bold zero celcius radial tick
+  - remove stations without TMIN, TMAX, PRCP
+  - Choose font for visualization
+  - Calibrate temperature colors
+  - Center month label
+  - Draw axis at year start
+  - Bold zero celcius radial tick
+  - show chart in overlay 
 

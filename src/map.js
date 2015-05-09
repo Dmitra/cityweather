@@ -15,10 +15,6 @@ var Self = function (center, zoom) {
     maxZoom: 13,
   }).addTo(self.map)
 
-  // Add an SVG element to Leaflet’s overlay pane
-  //var svg = d3.select(self.map.getPanes().overlayPane).append('svg'),
-  //g = svg.append('g').attr('class', 'leaflet-zoom-hide')
-
   // Initialize the SVG layer
   self.map._initPathRoot()    
 
@@ -41,6 +37,7 @@ Self.prototype.draw = function(data) {
   self.nodes = self.overlay.selectAll('circle')
     .data(data)
     .enter().append('circle')
+    .attr('class', 'station')
     .attr('r', 5)
   
   self.map.on('viewreset', self.update.bind(self))
