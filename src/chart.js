@@ -7,16 +7,16 @@ var radialLabel = require('plusjs/src/svg/radial/label')
 
 var Self = function (container) {
   var self = this
-
-  self.width = 800
-  self.height = 800;
+  self.maxWidth = 800
   self.container = container
-  self.vis = self.container.append('svg')
-    .attr('id', 'rayChart')
-    //.attr('xmlns', "http://www.w3.org/2000/svg")
-    //.attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
-    .attr('width', self.width)
-    .attr('height', self.height)
+
+  d3.select(window).on('resize', function () {
+    self._resize()
+    self.draw(self.stashed)
+  })
+
+  //Set initial size
+  self._resize()
 }
 
 Self.prototype.show = function () {
@@ -25,6 +25,7 @@ Self.prototype.show = function () {
 
 Self.prototype.draw = function (data) {
   var self = this
+  self.stashed = data
 
   var datesDomain = d3.extent(_.pluck(data, 'date'))
 
@@ -151,22 +152,38 @@ Self.prototype.draw = function (data) {
 
   function interactive () {
     function showLegend(d) {
-      document.querySelector('#legend>#date').html = d3.time.format('%d %b')(d.date)
-      document.querySelector('#legend>#tmax').html = configTemp.value.start(d) + ' C'
-      document.querySelector('#legend>#tmin').html = configTemp.value.end(d) + ' C'
-      document.querySelector('#legend>#tave').html = (d.tmin + d.tmax)/2
+      document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
+      document.querySelector('#legend>#tmax').innerHTML = configTemp.value.start(d) + ' C'
+      document.querySelector('#legend>#tmin').innerHTML = configTemp.value.end(d) + ' C'
+      document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
     }
     function highlight(d) {
       d3.select(d).classed('highlight', !d.classList.contains('highlight'))
     }
-    $('#barTemperatureGroup').on('mouseover', function (e) {
-      showLegend(e.target.__data__)
-      highlight(e.target)
+    d3.select('#barTemperatureGroup').delegate('mouseover', '.barTemperature', function (data) {
+      showLegend(data)
+      highlight(this)
     })
-    $('#barTemperatureGroup').on('mouseout', function (e) {
-      highlight(e.target)
+    d3.select('#barTemperatureGroup').delegate('mouseout', '.barTemperature', function (data) {
+      highlight(this)
     })
   }
+}
+
+Self.prototype._resize = function () {
+  var self = this
+
+  var width = document.querySelector('body').offsetWidth
+  self.width = width < self.maxWidth ? width : self.maxWidth
+  self.height = width < self.maxWidth ? width : self.maxWidth;
+
+  if (self.vis) self.vis.remove()
+  self.vis = self.container.append('svg')
+    .attr('id', 'rayChart')
+    //.attr('xmlns', "http://www.w3.org/2000/svg")
+    //.attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
+    .attr('width', self.width)
+    .attr('height', self.height)
 }
 
 module.exports = Self

@@ -18,7 +18,9 @@ var Self = function (options) {
   //var chartContainer = d3.select(self.map.map.getPanes().overlayPane)
   self.chart = new Chart(d3.select('#chart'))
 }
-
+/**
+ * Load station data from server
+ */
 Self.prototype.load = function (id, year) {
   var self = this
   self.chart.show()
@@ -27,7 +29,9 @@ Self.prototype.load = function (id, year) {
     self._onLoad(self.parse(d3.csv.parse(data)))
   })
 }
-
+/**
+ * format data from server
+ */
 Self.prototype.parse = function (data) {
   var self = this
   data = d3.nest()
@@ -52,6 +56,7 @@ Self.prototype.parse = function (data) {
 
 Self.prototype._onStationClick = function (data) {
   var self = this
+  d3.select('#city1').html(data.name)
   self.load(data.id, self.year)
 }
 

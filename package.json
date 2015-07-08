@@ -13,7 +13,6 @@
   ],
   "author": "Dmitra",
   "license": "MIT",
-  "readmeFilename": "README.md",
   "scripts": {
     "start": "static",
     "build-css": "node-sass scss/index.scss bundle.css",

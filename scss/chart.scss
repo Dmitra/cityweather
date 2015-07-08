@@ -15,27 +15,29 @@
   , rgba(255, 255, 255, 0.85) 55%
   , rgba(255, 255, 255, 0) 71%
   );
-  width: 800px;
-  height: 800px;
+  @media screen and (max-width: $chart-max-width) {
+    width: 100vw;
+    height: 100vw;
+    margin-top: -50vw;
+    margin-left: -50vw;
+    border-radius: 50vw;
+  }
+
+  width: $chart-max-width;
+  height: $chart-max-width;
+  margin-top: -$chart-max-width/2;
+  margin-left: -$chart-max-width/2;
+  border-radius: $chart-max-width/2;
+
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -400px;
-  margin-left: -400px;
-  border-radius: 400px;
   opacity: 0;
 
-  #city {
-    position: relative;
-    top: $center-y;
-    left: $center-x - 100px;
-    font-size: 5em;
-    height: 0px;
-  }
   #legend {
-    position: relative;
-    top: $center-y;
-    left: $center-x - 100px;
+    position: fixed;
+    top: 47%;
+    left: 47%;
     font-size: 1.5em;
     line-height: 1.2em;
     height: 0px;

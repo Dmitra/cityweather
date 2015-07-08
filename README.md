@@ -6,13 +6,22 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
 ##Live Demo
 [Click on image for live demo ![Live demo](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/sanfrancisco.jpg)](http://dmitra.com/vis/cityweather)
 
+##Feature
+  + weather visualization
+    + Temperature
+      + Bar for min, max
+      + Graph for average
+      + Color coding for average
+  + prepared data from NOAA
+  + city selection on the map
+  + visualization transformation on city selection
+  + optimized for mobile
+  + responsive
+
+####
+
 ##Roadmap
-###Feature
-####Data visualization
-  + Temperature
-    + Bar for min, max
-    + Graph for average
-    + Color coding for average
+###Visualize
   - Precipitation
   * Wind/Air stagnation
     * speed: peak, avg
@@ -24,12 +33,11 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * sunshine/cloudy
 
 ####Interactive
-  + city selection on the map
-  * visualization transformation on city selection
   * Compare cities
   * Realtime visualizaion on daily data from NOAA
 
 ###Improvement
+  - clustering
   - remove stations without TMIN, TMAX, PRCP
   - Choose font for visualization
   - Calibrate temperature colors

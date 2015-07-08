@@ -1,8 +1,8 @@
 var Self = function (center, zoom) {
   var self = this
 
-  var zoomLevels = [3, 13]
-  var markerSizes = [1, 7]
+  var zoomLevels = [3, 15]
+  var markerSizes = [1, 40]
   self.markerScale = d3.scale.linear().domain(zoomLevels).range(markerSizes)
 
   self.map = L.map('map')
@@ -12,7 +12,8 @@ var Self = function (center, zoom) {
   L.tileLayer(
     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; ' + mapLink + ' Contributors',
-    maxZoom: 13,
+    minZoom: zoomLevels[0],
+    maxZoom: zoomLevels[1],
   }).addTo(self.map)
 
   // Initialize the SVG layer
