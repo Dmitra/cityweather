@@ -24,7 +24,7 @@
   "dependencies": {
     "d3": "<=3.5.0",
     "d3-transform": "latest",
-    "jquery": "latest",
+    "backbone-events-standalone": "latest",
     "lodash": "<=3.5.0",
     "plusjs": "https://github.com/Dmitra/plusjs.git"
   },

@@ -1,12 +1,16 @@
-var Self = function (center, zoom) {
-  var self = this
+var Events = require('backbone-events-standalone')
 
+var Self = function (p) {
+  var self = this
+  p = p || {}
+
+  self.container = p.container
   var zoomLevels = [3, 15]
   var markerSizes = [1, 40]
   self.markerScale = d3.scale.linear().domain(zoomLevels).range(markerSizes)
 
   self.map = L.map('map')
-  self.map.setView(center, zoom)
+  self.map.setView(p.center, p.zoom)
 
   mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>'
   L.tileLayer(
@@ -20,11 +24,13 @@ var Self = function (center, zoom) {
   self.map._initPathRoot()    
 
   // We pick up the SVG from the map object
-  var svg = d3.select('#map').select('svg')
+  var svg = self.container.select('svg')
   self.overlay = svg.append('g')
     .attr('id', 'stations')
 
-  return self
+  self.container.delegate('click', '.station', function (data) {
+    self.trigger('station-select', data)
+  })
 }
 
 Self.prototype.draw = function(data) {
@@ -57,4 +63,6 @@ Self.prototype.update = function () {
   )
   self.nodes.attr('r', self.markerScale(self.map.getZoom()))
 }
+
+Events.mixin(Self.prototype)
 module.exports = Self

@@ -18,8 +18,6 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
   + optimized for mobile
   + responsive
 
-####
-
 ##Roadmap
 ###Visualize
   - Precipitation
@@ -33,11 +31,11 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * sunshine/cloudy
 
 ####Interactive
-  * Compare cities
-  * Realtime visualizaion on daily data from NOAA
+  - Multi-visualization for cities comparison on the chart
+  - clustering of points on the map
+  - Realtime visualizaion on daily data from NOAA
 
 ###Improvement
-  - clustering
   - remove stations without TMIN, TMAX, PRCP
   - Choose font for visualization
   - Calibrate temperature colors

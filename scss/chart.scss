@@ -7,6 +7,7 @@
   }
 }
 #chart {
+  pointer-events: none;
   display: none;
   overflow: hidden;
   background: rgba(100, 100, 100, 0.7);
@@ -66,14 +67,14 @@ path, circle {
 .axis text {
   font: 10px sans-serif;
 }
-.barTemperature {
+.bar {
   stroke-width: 2px;
 }
 .graphMediana, .gridLineTempGrid {
   stroke: rgba(0, 0, 0, 0.21)
 }
 .labelMonths {
-  font-size: 1.1em;
+  font-size: 1.5em;
   text-anchor: start;
   color: grey;
 }

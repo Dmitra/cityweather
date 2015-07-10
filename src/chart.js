@@ -7,12 +7,13 @@ var radialLabel = require('plusjs/src/svg/radial/label')
 
 var Self = function (container) {
   var self = this
+  self.stashed = {}
   self.maxWidth = 800
   self.container = container
 
   d3.select(window).on('resize', function () {
     self._resize()
-    self.draw(self.stashed)
+    self.render()
   })
 
   //Set initial size
@@ -23,19 +24,37 @@ Self.prototype.show = function () {
   this.container.classed('fade-in', true)
 }
 
-Self.prototype.draw = function (data) {
+Self.prototype.hide = function () {
+  this.container.classed('fade-in', false)
+}
+/**
+ * render the chart for the first time
+ */
+Self.prototype.render = function (data, id) {
   var self = this
-  self.stashed = data
+  //TODO if no data rerender everything (on resize)
+  if (!data) {
+    return _.each(self.stashed, function (data, id) {
+      self.draw(data, id)
+    })
+  }
+
+  if (_.isString(data)) id = data
+
+  self.stashed[id] = data
+  if (self.rendered) return self.draw(data, id)
 
   var datesDomain = d3.extent(_.pluck(data, 'date'))
 
   //Config
   //---------------------------------------------------------------------------------
-  var config = {
+  self.config = {
     target: self.vis,
     size: [self.width, self.height],
   }
   var yearRange = [0,365]
+  var temperatureDomain = [-40, 40]
+  var chartActualSize = [0, self.width/2*.8]
   var positionScaler = d3.time.scale()
     .domain(datesDomain)
     .range(yearRange)
@@ -63,78 +82,88 @@ Self.prototype.draw = function (data) {
         //d3.hsl(   0, 1.00, 0.35),
       //])
 
-  var configTemp = _.extend({}, config, {
-    name: 'Temperature',
+  self.configTemp = _.extend({}, self.config, {
+    name: 'Temperature' + id,
     positionRange: yearRange,
     position: function (d) { return positionScaler(d.date) },
     value: {
       start: function (d) { return d.tmin },
       end: function (d) { return d.tmax },
     },
-    domain: [-40, 40],
-    range: [0, self.width/2*.8],
+    domain: temperatureDomain,
+    range: chartActualSize,
     color: function (d) { return tempPainter((d.tmin + d.tmax)/2) },
   })
-  var configGrid = _.extend({}, config, {
+  self.configGrid = _.extend({}, self.config, {
     name: 'TempGrid',
-    center: [self.width/2, self.height/2],
-    domain: [-40, 40],
-    range: [0, self.width/2*.8],
+    domain: temperatureDomain,
+    range: chartActualSize,
     step: 10,
     sectors: 12,
     sectorSize: 0.9,
   })
   var tempScaler = d3.scale.linear()
-    .domain([-40, 40])
-    .range([0, self.width/2*.8])
-  var configGraph = _.extend({}, config, {
+    .domain(temperatureDomain)
+    .range(chartActualSize)
+
+  self.configGraph = _.extend({}, self.config, {
     name: 'Mediana',
     position: function (d) { return positionScaler(d.date) },
     radius: function (d) { return tempScaler((d.tmin + d.tmax)/2) },
     interpolate: 'basis-closed',
     tension: 0.5,
   })
-  var configLabel = _.extend({}, config, {
+  self.configLabel = _.extend({}, self.config, {
     name: 'Months',
     coordinateSystem: 'polar',
     range: undefined,
     position: function (d) { return d.position },
     radius: 330,
   })
+  self.configSeparator = _.extend({}, self.config, {
+    name: 'Separator',
+    coordinateSystem: 'polar',
+    range: undefined,
+    position: function (d) { return d.position },
+    radius: 320,
+  })
 
   //Prepare data
   //---------------------------------------------------------------------------------
   var t = d3.time.scale()
       .domain(datesDomain)
-  var ticks = t.ticks(d3.time.months, 1)
+  var ticks = t.ticks(d3.time.months, 0.5)
   var monthLabels = ticks.map(function (d, i) {
-    return { position: i, label: d3.time.format('%b')(d) }
+    return { position: i + 0.4, label: d3.time.format('%b')(d) }
+  })
+  var monthSeparator = ticks.map(function (d, i) {
+    return { position: i - 0.05, label: '|' }
   })
 
   // Create charts
   //---------------------------------------------------------------------------------
-  gridLine(configGrid)
-  rayDraw(configTemp, data)
+  gridLine(self.configGrid)
 
-  Radial(configGraph)(data)
-  graphDraw(configGraph, data)
-  radialLabel(configLabel, monthLabels)
+  radialLabel(self.configLabel, monthLabels)
+  radialLabel(self.configSeparator, monthSeparator)
 
-  interactive()
+  self.draw(data, id)
+
+  self._interactive()
 
   //TODO draw axis labels
-  //var scale = d3.scale.identity().domain(config.range)
+  //var scale = d3.scale.identity().domain(self.config.range)
 
   //var ticks = d3.scale.identity()
-    //.domain(config.range)
-    //.ticks(config.range[1]/config.step)
+    //.domain(self.config.range)
+    //.ticks(self.config.range[1]/self.config.step)
 
   //var axis = d3.svg.axis()
     //.scale(scale)
     //.orient('right')
     //.tickFormat(function (d) { return d + '°C' })
 
-  //config.target.append('g').attr('transform', d3.svg.transform().translate(self.center))
+  //self.config.target.append('g').attr('transform', d3.svg.transform().translate(self.center))
     //.call(axis)
     //.transition()
     //.duration(750)
@@ -147,27 +176,64 @@ Self.prototype.draw = function (data) {
     //.attr('text-anchor', 'middle')
     //.attr('class', '.axisTick' + name)
     //.attr('x', 0)
-    //.attr('y', function (d) { return d * config.factor})
+    //.attr('y', function (d) { return d * self.config.factor})
     //.text(function (d) { return d})
 
-  function interactive () {
-    function showLegend(d) {
-      document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
-      document.querySelector('#legend>#tmax').innerHTML = configTemp.value.start(d) + ' C'
-      document.querySelector('#legend>#tmin').innerHTML = configTemp.value.end(d) + ' C'
-      document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
-    }
-    function highlight(d) {
-      d3.select(d).classed('highlight', !d.classList.contains('highlight'))
-    }
-    d3.select('#barTemperatureGroup').delegate('mouseover', '.barTemperature', function (data) {
-      showLegend(data)
-      highlight(this)
-    })
-    d3.select('#barTemperatureGroup').delegate('mouseout', '.barTemperature', function (data) {
-      highlight(this)
-    })
-  }
+  self.rendered = true
+}
+/**
+ * draw radial bars for data
+ * or colorize if already drawn and greyed out
+ */
+Self.prototype.draw = function (data, id) {
+  var self = this
+  self.configTemp.name = 'Temperature' + id
+  rayDraw(self.configTemp, data)
+  Radial(self.configGraph)(data)
+  graphDraw(self.configGraph, data)
+}
+
+Self.prototype.remove = function (id) {
+  var self = this
+  d3.select('.barGroup.Temperature' + id).remove()
+  delete self.stashed[id]
+}
+Self.prototype.bringToFront = function (id) {
+  var self = this
+  d3.select('.barGroup.Temperature' + id).remove()
+  self.draw(self.stashed[id], id)
+}
+/**
+ * grey out bars of specified data
+ */
+Self.prototype.shadow = function (id) {
+  d3.selectAll('.barGroup.Temperature' + id + ' .bar')
+    .transition()
+    .duration(750)
+    .style('stroke', 'grey')
+}
+
+Self.prototype._interactive = function () {
+  var self = this
+
+  d3.select('#barTemperatureGroup').delegate('mouseover', '.barTemperature', function (data) {
+    self.showLegend(data)
+    self.highlight(this)
+  })
+  d3.select('#barTemperatureGroup').delegate('mouseout', '.barTemperature', function (data) {
+    self.highlight(this)
+  })
+}
+
+Self.prototype._showLegend = function (d) {
+  document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
+  document.querySelector('#legend>#tmax').innerHTML = self.configTemp.value.start(d) + ' C'
+  document.querySelector('#legend>#tmin').innerHTML = self.configTemp.value.end(d) + ' C'
+  document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
+}
+
+Self.prototype._highlight = function (d) {
+  d3.select(d).classed('highlight', !d.classList.contains('highlight'))
 }
 
 Self.prototype._resize = function () {
