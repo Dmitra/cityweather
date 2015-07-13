@@ -10,13 +10,10 @@ var Self = function (container) {
   self.stashed = {}
   self.container = container
 
-  d3.select(window).on('resize', function () {
-    self._resize()
-    self.render()
-  })
+  d3.select(window).on('resize', self._resize.bind(self))
 
   //Set initial size
-  self._resize()
+  self._init()
 }
 
 Self.prototype.show = function () {
@@ -31,15 +28,6 @@ Self.prototype.hide = function () {
  */
 Self.prototype.render = function (data, id) {
   var self = this
-  //TODO if no data rerender everything (on resize)
-  if (!data) {
-    return _.each(self.stashed, function (data, id) {
-      self.draw(data, id)
-    })
-  }
-
-  if (_.isString(data)) id = data
-
   self.stashed[id] = data
   if (self.rendered) return self.draw(data, id)
 
@@ -148,8 +136,6 @@ Self.prototype.render = function (data, id) {
 
   self.draw(data, id)
 
-  self._interactive()
-
   //TODO draw axis labels
   //var scale = d3.scale.identity().domain(self.config.range)
 
@@ -186,10 +172,13 @@ Self.prototype.render = function (data, id) {
  */
 Self.prototype.draw = function (data, id) {
   var self = this
+  self.active = id
+  console.log('Active: ' + id);
   self.configTemp.name = 'Temperature' + id
   rayDraw(self.configTemp, data)
   //Radial(self.configGraph)(data)
   //graphDraw(self.configGraph, data)
+  self._interactive(data, id)
 }
 
 Self.prototype.remove = function (id) {
@@ -212,30 +201,7 @@ Self.prototype.shadow = function (id) {
     .style('stroke', 'grey')
 }
 
-Self.prototype._interactive = function () {
-  var self = this
-
-  d3.select('#barTemperatureGroup').delegate('mouseover', '.barTemperature', function (data) {
-    self.showLegend(data)
-    self.highlight(this)
-  })
-  d3.select('#barTemperatureGroup').delegate('mouseout', '.barTemperature', function (data) {
-    self.highlight(this)
-  })
-}
-
-Self.prototype._showLegend = function (d) {
-  document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
-  document.querySelector('#legend>#tmax').innerHTML = self.configTemp.value.start(d) + ' C'
-  document.querySelector('#legend>#tmin').innerHTML = self.configTemp.value.end(d) + ' C'
-  document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
-}
-
-Self.prototype._highlight = function (d) {
-  d3.select(d).classed('highlight', !d.classList.contains('highlight'))
-}
-
-Self.prototype._resize = function () {
+Self.prototype._init = function () {
   var self = this
 
   var width = document.querySelector('body').offsetWidth
@@ -252,6 +218,47 @@ Self.prototype._resize = function () {
 
   if (width > height) self.vis.style('left', (width - self.size)/2 )
   else self.vis.style('top', (height - self.size)/2 )
+}
+
+Self.prototype._interactive = function (data, id) {
+  var self = this
+
+  d3.select('.barGroup.Temperature' + id).delegate('mouseover', '.bar', function (data) {
+    self._showLegend(data)
+    self._highlight(this)
+  })
+  d3.select('.barGroup.Temperature' + id).delegate('mouseout', '.bar', function (data) {
+    self._highlight(this)
+  })
+}
+
+Self.prototype._showLegend = function (d) {
+  var self = this
+
+  document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
+  document.querySelector('#legend>#tmax').innerHTML = self.configTemp.value.start(d) + ' C'
+  document.querySelector('#legend>#tmin').innerHTML = self.configTemp.value.end(d) + ' C'
+  document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
+}
+
+Self.prototype._highlight = function (d) {
+  d3.select(d).classed('highlight', !d.classList.contains('highlight'))
+}
+
+Self.prototype._resize = function () {
+  var self = this
+  self._init()
+  self.rendered = false
+
+  //TODO if no data rerender everything (on resize)
+  var active = self.active
+  _.each(self.stashed, function (data, id) {
+    if (id !== active) {
+      self.render(data, id)
+      self.shadow(id)
+    }
+  })
+  self.render(self.stashed[active], active)
 }
 
 module.exports = Self

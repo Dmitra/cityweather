@@ -71,6 +71,7 @@ Self.prototype.add = function (station) {
   var self = this
   , position
 
+  // update existing
   if (self.first && self.first.id === station.id || self.second && self.second.id === station.id) {
     if (self.active !== station.id) {
       self.chart.shadow(self.active)
@@ -83,6 +84,7 @@ Self.prototype.add = function (station) {
       self.chart.shadow(self.first.id)
     } else {
       self.first = station
+      if (self.second) self.chart.shadow(self.second.id)
     }
 
     self.load(station.id, self.year)
