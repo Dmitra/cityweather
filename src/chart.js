@@ -8,7 +8,6 @@ var radialLabel = require('plusjs/src/svg/radial/label')
 var Self = function (container) {
   var self = this
   self.stashed = {}
-  self.maxWidth = 800
   self.container = container
 
   d3.select(window).on('resize', function () {
@@ -50,11 +49,11 @@ Self.prototype.render = function (data, id) {
   //---------------------------------------------------------------------------------
   self.config = {
     target: self.vis,
-    size: [self.width, self.height],
+    size: [self.size, self.size],
   }
   var yearRange = [0,365]
   var temperatureDomain = [-40, 40]
-  var chartActualSize = [0, self.width/2*.8]
+  var chartActualSize = [0, self.size/2*.8]
   var positionScaler = d3.time.scale()
     .domain(datesDomain)
     .range(yearRange)
@@ -118,14 +117,14 @@ Self.prototype.render = function (data, id) {
     coordinateSystem: 'polar',
     range: undefined,
     position: function (d) { return d.position },
-    radius: 330,
+    radius: self.size/2.42,
   })
   self.configSeparator = _.extend({}, self.config, {
     name: 'Separator',
     coordinateSystem: 'polar',
     range: undefined,
     position: function (d) { return d.position },
-    radius: 320,
+    radius: self.size/2.5,
   })
 
   //Prepare data
@@ -189,8 +188,8 @@ Self.prototype.draw = function (data, id) {
   var self = this
   self.configTemp.name = 'Temperature' + id
   rayDraw(self.configTemp, data)
-  Radial(self.configGraph)(data)
-  graphDraw(self.configGraph, data)
+  //Radial(self.configGraph)(data)
+  //graphDraw(self.configGraph, data)
 }
 
 Self.prototype.remove = function (id) {
@@ -240,16 +239,19 @@ Self.prototype._resize = function () {
   var self = this
 
   var width = document.querySelector('body').offsetWidth
-  self.width = width < self.maxWidth ? width : self.maxWidth
-  self.height = width < self.maxWidth ? width : self.maxWidth;
+  var height = document.querySelector('body').offsetHeight
+  self.size = width > height ? height : width
 
   if (self.vis) self.vis.remove()
   self.vis = self.container.append('svg')
     .attr('id', 'rayChart')
     //.attr('xmlns', "http://www.w3.org/2000/svg")
     //.attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
-    .attr('width', self.width)
-    .attr('height', self.height)
+    .attr('width', self.size)
+    .attr('height', self.size)
+
+  if (width > height) self.vis.style('left', (width - self.size)/2 )
+  else self.vis.style('top', (height - self.size)/2 )
 }
 
 module.exports = Self

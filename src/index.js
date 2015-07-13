@@ -17,12 +17,13 @@ var Self = function (options) {
   self.header = new Header(d3.select('#header'))
   //var chartContainer = d3.select(self.map.map.getPanes().overlayPane)
   self.chart = new Chart(d3.select('#chart'))
-  self.header.on('hide', function (id) {
+  self.header.on('hide', function () {
     self.chart.hide()
   })
   self.header.on('remove', self.remove.bind(self))
   self.header.on('show', function (id) {
-    self.add(self.first && self.first.id === id ? self.first : self.second)
+    if (id) self.add(self.first && self.first.id === id ? self.first : self.second)
+    else self.chart.show()
   })
 
   d3.csv('data/stations.csv', function (stations) {
@@ -68,6 +69,7 @@ Self.prototype.parse = function (data) {
  */
 Self.prototype.add = function (station) {
   var self = this
+  , position
 
   if (self.first && self.first.id === station.id || self.second && self.second.id === station.id) {
     if (self.active !== station.id) {
@@ -86,7 +88,7 @@ Self.prototype.add = function (station) {
     self.load(station.id, self.year)
   }
 
-  self.header.render(self.first, self.second)
+  self.header.show(station, self.first === station ? 0 : 1)
   self.chart.show()
   self.active = station.id
 }
@@ -99,7 +101,10 @@ Self.prototype.remove = function (id) {
 
   self.chart.remove(id)
 
-  if (!self.first && !self.second) self.chart.hide()
+  if (!self.first && !self.second) {
+    self.chart.hide()
+    self.header.comparisonOff()
+  }
   else {
     var last = self.first || self.second
     if (last.id !== self.active) self.chart.bringToFront(last.id)

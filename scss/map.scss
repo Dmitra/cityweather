@@ -1,7 +1,7 @@
 @import 'node_modules/leaflet/dist/leaflet.css';
 
 .leaflet-control-zoom {
-  top: $header-height;
+  top: 100px;
 }
 
 #map {

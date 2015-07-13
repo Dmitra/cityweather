@@ -15,8 +15,9 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
   + prepared data from NOAA
   + city selection on the map
   + visualization transformation on city selection
-  + optimized for mobile
-  + responsive
+  + Comparison visualization
+  - optimized for mobile
+  - responsive
 
 ##Roadmap
 ###Visualize
@@ -31,16 +32,22 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * sunshine/cloudy
 
 ####Interactive
-  - Multi-visualization for cities comparison on the chart
+  - Chart and Map modes UX
   - clustering of points on the map
   - Realtime visualizaion on daily data from NOAA
 
 ###Improvement
-  - remove stations without TMIN, TMAX, PRCP
+  - highlight points on map: cursor type
+  - ? remove stations without TMIN, TMAX, PRCP
+  - hard to compare similar charts (no transparency)
+  - optimize chart size for various screens
+  - switch places for compared cities
   - Choose font for visualization
   - Calibrate temperature colors
-  - Center month label
   - Draw axis at year start
   - Bold zero celcius radial tick
-  - show chart in overlay 
-
+  - show about info (year)
+  - replace 'Hide' with 'Show' on click
+  - default city should be defined by detecting browser geo-location
+  - limit map pan on world view (smallest zoom)
+  - design better UI controls
