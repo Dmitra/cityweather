@@ -26,7 +26,11 @@ var Self = function (options) {
     else self.chart.show()
   })
 
+  self.stations = {}
   d3.csv('data/stations.csv', function (stations) {
+    _.each(stations, function (station) {
+      self.stations[station.id] = station
+    })
     self.map.draw(stations)
   })
 }
@@ -113,10 +117,9 @@ Self.prototype.remove = function (id) {
   }
 }
 
-Self.prototype._onStationSelect = function (station) {
+Self.prototype._onStationSelect = function (id) {
   var self = this
-  d3.event.stopPropagation()
-  self.add(station)
+  self.add(self.stations[id])
 }
 
 Self.prototype._onLoad = function (data, id) {

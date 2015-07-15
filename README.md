@@ -16,8 +16,9 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
   + city selection on the map
   + visualization transformation on city selection
   + Comparison visualization
+  + clustering of points on the map
+  + responsive
   - optimized for mobile
-  - responsive
 
 ##Roadmap
 ###Visualize
@@ -33,7 +34,6 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
 
 ####Interactive
   - Chart and Map modes UX
-  - clustering of points on the map
   - Realtime visualizaion on daily data from NOAA
 
 ###Improvement
@@ -47,7 +47,6 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
   - Draw axis at year start
   - Bold zero celcius radial tick
   - show about info (year)
-  - replace 'Hide' with 'Show' on click
   - default city should be defined by detecting browser geo-location
   - limit map pan on world view (smallest zoom)
   - design better UI controls

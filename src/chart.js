@@ -83,6 +83,7 @@ Self.prototype.render = function (data, id) {
   })
   self.configGrid = _.extend({}, self.config, {
     name: 'TempGrid',
+    center: [self.size/2, self.size/2],
     domain: temperatureDomain,
     range: chartActualSize,
     step: 10,
@@ -173,7 +174,6 @@ Self.prototype.render = function (data, id) {
 Self.prototype.draw = function (data, id) {
   var self = this
   self.active = id
-  console.log('Active: ' + id);
   self.configTemp.name = 'Temperature' + id
   rayDraw(self.configTemp, data)
   //Radial(self.configGraph)(data)

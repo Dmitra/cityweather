@@ -1,3 +1,6 @@
+require('leaflet')
+require('leaflet.markercluster')
+L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/'
 var Events = require('backbone-events-standalone')
 
 var Self = function (p) {
@@ -20,48 +23,23 @@ var Self = function (p) {
     maxZoom: zoomLevels[1],
   }).addTo(self.map)
 
-  // Initialize the SVG layer
-  self.map._initPathRoot()    
+  self.markers = L.markerClusterGroup()
+  self.map.addLayer(self.markers)
 
-  // We pick up the SVG from the map object
-  var svg = self.container.select('svg')
-  self.overlay = svg.append('g')
-    .attr('id', 'stations')
-
-  self.container.delegate('click', '.station', function (data) {
-    self.trigger('station-select', data)
-  })
+  self.markers.on('click', function (a) {
+    self.trigger('station-select', a.layer.id)
+  });
 }
 
 Self.prototype.draw = function(data) {
   var self = this
 
-  // Add a LatLng object to each item in the dataset
-  data.forEach(function(d) {
-    d.LatLng = new L.LatLng(d.latitude, d.longitude)
+  var markers = _.map(data, function (d) {
+    var marker = L.marker(L.latLng(d.latitude, d.longitude), { title: d.name })
+    marker.id = d.id
+    return marker
   })
-
-  self.nodes = self.overlay.selectAll('circle')
-    .data(data)
-    .enter().append('circle')
-    .attr('class', 'station')
-    .attr('r', 5)
-  
-  self.map.on('viewreset', self.update.bind(self))
-  self.update()
-}
-
-Self.prototype.update = function () {
-  var self = this
-
-  self.nodes.attr('transform', 
-    function(d) { 
-      return 'translate('+ 
-         self.map.latLngToLayerPoint(d.LatLng).x +','+ 
-         self.map.latLngToLayerPoint(d.LatLng).y +')'
-    }
-  )
-  self.nodes.attr('r', self.markerScale(self.map.getZoom()))
+  self.markers.addLayers(markers)
 }
 
 Events.mixin(Self.prototype)

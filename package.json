@@ -26,7 +26,8 @@
     "d3-transform": "latest",
     "backbone-events-standalone": "latest",
     "lodash": "<=3.5.0",
-    "plusjs": "https://github.com/Dmitra/plusjs.git"
+    "plusjs": "https://github.com/Dmitra/plusjs.git",
+    "leaflet.markercluster": "latest"
   },
   "devDependencies": {
     "node-static": "latest",
