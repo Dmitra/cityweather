@@ -1,6 +1,6 @@
 require('leaflet')
 require('leaflet.markercluster')
-L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/'
+L.Icon.Default.imagePath = 'image'
 var Events = require('backbone-events-standalone')
 
 var Self = function (p) {
@@ -23,15 +23,20 @@ var Self = function (p) {
     maxZoom: zoomLevels[1],
   }).addTo(self.map)
 
+  self.selectedIcon = new L.Icon.Default({
+    iconUrl: L.Icon.Default.imagePath + '/marker-selected.png'
+  })
+
   self.markers = L.markerClusterGroup()
   self.map.addLayer(self.markers)
 
   self.markers.on('click', function (a) {
+    //a.layer.setIcon(self.selectedIcon)
     self.trigger('station-select', a.layer.id)
   });
 }
 
-Self.prototype.draw = function(data) {
+Self.prototype.draw = function (data) {
   var self = this
 
   var markers = _.map(data, function (d) {
@@ -40,6 +45,12 @@ Self.prototype.draw = function(data) {
     return marker
   })
   self.markers.addLayers(markers)
+}
+
+Self.prototype.highlight = function (id, state) {
+  var self = this
+
+  //TODO find marker and change icon by state
 }
 
 Events.mixin(Self.prototype)

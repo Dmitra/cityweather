@@ -10,6 +10,10 @@ var Self = function (options) {
   var self = this
   self.year = options.year
   self.center = options.center
+
+  //TODO find nearest station
+  //navigator.geolocation.getCurrentPosition(function () {})
+
   self.dateFormatter = d3.time.format('%m%d')
 
   self.map = new Map({container: d3.select('#map'), center: self.center, zoom: 13})
@@ -96,6 +100,7 @@ Self.prototype.add = function (station) {
 
   self.header.show(station, self.first === station ? 0 : 1)
   self.chart.show()
+  self.map.highlight(station.id)
   self.active = station.id
 }
 
@@ -106,6 +111,7 @@ Self.prototype.remove = function (id) {
   } else delete self.second
 
   self.chart.remove(id)
+  self.map.highlight(id, false)
 
   if (!self.first && !self.second) {
     self.chart.hide()
@@ -135,7 +141,3 @@ window.app = new Self({
   //San Francisco coordinates
 , center: [37.76487, -122.41948]
 })
-
-//setTimeout(function () {
-  //app.load()
-//}, 3000)

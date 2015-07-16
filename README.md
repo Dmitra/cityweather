@@ -33,20 +33,21 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * sunshine/cloudy
 
 ####Interactive
-  - Chart and Map modes UX
+  - default city should be defined by detecting browser geo-location
+  - search by geocode
   - Realtime visualizaion on daily data from NOAA
 
 ###Improvement
-  - highlight points on map: cursor type
+  - highlight selected points on map
+  - Draw axis at year start
+  - Bold zero celcius radial tick
+  - Calibrate temperature colors
+  - show about info (year)
+
   - ? remove stations without TMIN, TMAX, PRCP
   - hard to compare similar charts (no transparency)
   - optimize chart size for various screens
   - switch places for compared cities
   - Choose font for visualization
-  - Calibrate temperature colors
-  - Draw axis at year start
-  - Bold zero celcius radial tick
-  - show about info (year)
-  - default city should be defined by detecting browser geo-location
   - limit map pan on world view (smallest zoom)
   - design better UI controls

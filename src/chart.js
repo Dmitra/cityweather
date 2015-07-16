@@ -216,8 +216,9 @@ Self.prototype._init = function () {
     .attr('width', self.size)
     .attr('height', self.size)
 
-  if (width > height) self.vis.style('left', (width - self.size)/2 )
-  else self.vis.style('top', (height - self.size)/2 )
+  console.log(width - self.size)
+  if (width > height) self.vis.style('left', (width - self.size)/2 + 'px' )
+  else self.vis.style('top', (height - self.size)/2 + 'px')
 }
 
 Self.prototype._interactive = function (data, id) {
