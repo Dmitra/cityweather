@@ -35,7 +35,7 @@ Self.prototype.show = function (obj, position) {
     self.toggleChartBtn
       .classed('show', true)
       .classed('control-hidden', false)
-      .html('Hide Chart')
+      .html('Show Map')
   }
 }
 /**
@@ -71,7 +71,7 @@ Self.prototype._onToggleChart = function () {
   } else {
     eventType = 'show'
     btn.classed('show', true)
-      .html('Hide Chart')
+      .html('Show Map')
   }
 
   self.trigger(eventType)
