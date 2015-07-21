@@ -1,5 +1,3 @@
-require('leaflet')
-require('leaflet.markercluster')
 L.Icon.Default.imagePath = 'image'
 var Events = require('backbone-events-standalone')
 
