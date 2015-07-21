@@ -19,7 +19,6 @@ var Self = function (options) {
   self.map = new Map({container: d3.select('#map'), center: self.center, zoom: 13})
   self.map.on('station-select', self._onStationSelect.bind(self))
   self.header = new Header(d3.select('#header'))
-  //var chartContainer = d3.select(self.map.map.getPanes().overlayPane)
   self.chart = new Chart(d3.select('#chart'))
   self.header.on('hide', function () {
     self.chart.hide()

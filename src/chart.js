@@ -36,8 +36,8 @@ Self.prototype.render = function (data, id) {
   //Config
   //---------------------------------------------------------------------------------
   self.config = {
-    target: self.vis,
-    size: [self.size, self.size],
+    target: self.vis
+  , size: [self.size, self.size]
   }
   var yearRange = [0,365]
   var temperatureDomain = [-40, 40]
@@ -70,50 +70,50 @@ Self.prototype.render = function (data, id) {
       //])
 
   self.configTemp = _.extend({}, self.config, {
-    name: 'Temperature' + id,
-    positionRange: yearRange,
-    position: function (d) { return positionScaler(d.date) },
-    value: {
-      start: function (d) { return d.tmin },
-      end: function (d) { return d.tmax },
-    },
-    domain: temperatureDomain,
-    range: chartActualSize,
-    color: function (d) { return tempPainter((d.tmin + d.tmax)/2) },
+    name: 'Temperature' + id
+  , positionRange: yearRange
+  , position: function (d) { return positionScaler(d.date) }
+  , value: {
+      start: function (d) { return d.tmin }
+    , end: function (d) { return d.tmax }
+    }
+  , domain: temperatureDomain
+  , range: chartActualSize
+  , color: function (d) { return tempPainter((d.tmin + d.tmax)/2) }
   })
   self.configGrid = _.extend({}, self.config, {
-    name: 'TempGrid',
-    center: [self.size/2, self.size/2],
-    domain: temperatureDomain,
-    range: chartActualSize,
-    step: 10,
-    sectors: 12,
-    sectorSize: 0.9,
+    name: 'TempGrid'
+  , center: [self.size/2, self.size/2]
+  , domain: temperatureDomain
+  , range: chartActualSize
+  , step: 20
+  , sectors: 12
+  , sectorSize: 0.9
   })
   var tempScaler = d3.scale.linear()
     .domain(temperatureDomain)
     .range(chartActualSize)
 
   self.configGraph = _.extend({}, self.config, {
-    name: 'Mediana',
-    position: function (d) { return positionScaler(d.date) },
-    radius: function (d) { return tempScaler((d.tmin + d.tmax)/2) },
-    interpolate: 'basis-closed',
-    tension: 0.5,
+    name: 'Mediana'
+  , position: function (d) { return positionScaler(d.date) }
+  , radius: function (d) { return tempScaler((d.tmin + d.tmax)/2) }
+  , interpolate: 'basis-closed'
+  , tension: 0.5
   })
   self.configLabel = _.extend({}, self.config, {
-    name: 'Months',
-    coordinateSystem: 'polar',
-    range: undefined,
-    position: function (d) { return d.position },
-    radius: self.size/2.42,
+    name: 'Months'
+  , coordinateSystem: 'polar'
+  , range: undefined
+  , position: function (d) { return d.position }
+  , radius: self.size/2.42
   })
   self.configSeparator = _.extend({}, self.config, {
-    name: 'Separator',
-    coordinateSystem: 'polar',
-    range: undefined,
-    position: function (d) { return d.position },
-    radius: self.size/2.5,
+    name: 'Separator'
+  , coordinateSystem: 'polar'
+  , range: undefined
+  , position: function (d) { return d.position }
+  , radius: self.size/2.5
   })
 
   //Prepare data
@@ -132,38 +132,14 @@ Self.prototype.render = function (data, id) {
   //---------------------------------------------------------------------------------
   gridLine(self.configGrid)
 
+  //highlight zero celsius grid line
+  d3.select(d3.selectAll('.gridLine')[0][2]).attr('style', 'stroke-width:1.5px')
+
   radialLabel(self.configLabel, monthLabels)
   radialLabel(self.configSeparator, monthSeparator)
 
   self.draw(data, id)
-
-  //TODO draw axis labels
-  //var scale = d3.scale.identity().domain(self.config.range)
-
-  //var ticks = d3.scale.identity()
-    //.domain(self.config.range)
-    //.ticks(self.config.range[1]/self.config.step)
-
-  //var axis = d3.svg.axis()
-    //.scale(scale)
-    //.orient('right')
-    //.tickFormat(function (d) { return d + '°C' })
-
-  //self.config.target.append('g').attr('transform', d3.svg.transform().translate(self.center))
-    //.call(axis)
-    //.transition()
-    //.duration(750)
-
-  //self._g.append('g').attr('transform', d3.svg.transform().translate(self.center))
-    //.selectAll('.axisTick' + name)
-    //.data(ticks)
-    //.enter()
-    //.append('text')
-    //.attr('text-anchor', 'middle')
-    //.attr('class', '.axisTick' + name)
-    //.attr('x', 0)
-    //.attr('y', function (d) { return d * self.config.factor})
-    //.text(function (d) { return d})
+  self.axis(self.configGrid)
 
   self.rendered = true
 }
@@ -181,11 +157,42 @@ Self.prototype.draw = function (data, id) {
   self._interactive(data, id)
 }
 
+Self.prototype.axis = function (config) {
+  var self = this
+  , name = 'tempAxis'
+
+  var scale = d3.scale.linear()
+    .domain(config.domain)
+    .range([config.range[0], -config.range[1]])
+
+  var ticks = d3.scale.identity()
+    .domain(config.domain)
+    .ticks(5)
+
+  var axis = d3.svg.axis()
+    .scale(scale)
+    .ticks(5)
+    .orient('right')
+    .tickFormat(function (d) { return self.tempFormatter(d) })
+
+  self.vis.append('g')
+    .classed(name, true)
+    .attr('transform', d3.svg.transform().translate([config.center[0], config.center[1] - 10]))
+    .call(axis)
+
+  var axisLabels = d3.selectAll('.' + name + ' .tick text')
+  axisLabels.attr('style', 'text-anchor: end;')
+  d3.select(axisLabels[0][0]).remove()
+  d3.select(axisLabels[0][4]).remove()
+  d3.select('.' + name + ' .domain').remove()
+}
+
 Self.prototype.remove = function (id) {
   var self = this
   d3.select('.barGroup.Temperature' + id).remove()
   delete self.stashed[id]
 }
+
 Self.prototype.bringToFront = function (id) {
   var self = this
   d3.select('.barGroup.Temperature' + id).remove()
@@ -216,7 +223,6 @@ Self.prototype._init = function () {
     .attr('width', self.size)
     .attr('height', self.size)
 
-  console.log(width - self.size)
   if (width > height) self.vis.style('left', (width - self.size)/2 + 'px' )
   else self.vis.style('top', (height - self.size)/2 + 'px')
 }
@@ -237,9 +243,9 @@ Self.prototype._showLegend = function (d) {
   var self = this
 
   document.querySelector('#legend>#date').innerHTML = d3.time.format('%d %b')(d.date)
-  document.querySelector('#legend>#tmax').innerHTML = self.configTemp.value.start(d) + ' C'
-  document.querySelector('#legend>#tmin').innerHTML = self.configTemp.value.end(d) + ' C'
-  document.querySelector('#legend>#tave').innerHTML = (d.tmin + d.tmax)/2
+  document.querySelector('#legend>#tmax').innerHTML = self.tempFormatter(self.configTemp.value.start(d))
+  document.querySelector('#legend>#tmin').innerHTML = self.tempFormatter(self.configTemp.value.end(d))
+  document.querySelector('#legend>#tave').innerHTML = self.tempFormatter((d.tmin + d.tmax)/2)
 }
 
 Self.prototype._highlight = function (d) {
@@ -260,6 +266,10 @@ Self.prototype._resize = function () {
     }
   })
   self.render(self.stashed[active], active)
+}
+
+Self.prototype.tempFormatter = function (d) {
+  return d3.format('0,000')(parseFloat(d.toFixed(2))) + ' °C'
 }
 
 module.exports = Self

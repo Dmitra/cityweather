@@ -38,29 +38,20 @@ path, circle {
   fill:none;
   stroke:grey;
 }
-.labelLabels {
-  font-size: 10px;
-  font-weight: bold;
-  text-anchor: start;
-  margin-left: 10px;
-}
-.axisTempAxis {
-  stroke-width: 0.5px;
-}
-.axis text {
-  font: 10px sans-serif;
-}
 .bar {
   stroke-width: 2px;
 }
 .graphMediana, .gridLineTempGrid {
   stroke: rgba(0, 0, 0, 0.21)
 }
-.labelMonths {
+.label {
   font-size: 1.5em;
   text-anchor: start;
   color: grey;
 }
 .highlight {
   stroke-width: 4px;
+}
+.tempAxis .tick {
+  font-size: 1.2em;
 }
