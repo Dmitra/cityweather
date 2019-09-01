@@ -1,0 +1,31 @@
+@import "./_variables.scss";
+@import "bourbon";
+@import "./markerCluster.scss";
+
+
+body, html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-size: 62.5%;
+  font-family: $font-stack-helvetica;
+  color: $primary-color;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0px;
+  left: 20px;
+  font-size: 1.6em;
+  line-height: 1.4em;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0 8px 0 8px;
+}
+#menu {
+  position: fixed;
+  right: 0px;
+  background-color: $bg;
+  z-index:1;
+}

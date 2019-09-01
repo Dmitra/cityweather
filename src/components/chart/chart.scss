@@ -1,4 +1,4 @@
-@include keyframes(fade-in) {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
@@ -29,9 +29,9 @@
 
   &.fade-in {
     display: block;
-    @include animation-name(fade-in);
-    @include animation-duration(1s);
-    @include animation-fill-mode(forwards);
+    animation-name: fade-in;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
   }
 }
 path, circle {

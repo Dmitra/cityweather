@@ -1,9 +1,7 @@
 node_modules
 npm-debug.log
-bundle*
-lib.js
-lib/*
-!lib/parse.js
+dist/*
 data/*
-!data/USW00023234.csv
 !data/stations.csv
+!data/2014/USW00023272.csv
+!data/2014/CA006016295.csv

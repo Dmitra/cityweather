@@ -1,12 +1,12 @@
-#City weather data visualization
+# City weather data visualization
 A beautiful weather data shows you what it feels like in different places all over the world for a whole year.
 
 Choose climate station on the map and see the weather shot. It consists of 365 bars laying on the temperature scale. Bar base (closer to center) - is lowest day temperature, and top - highest. The color of bar shows the mean.
 
-##Live Demo
-[Click on image for live demo ![Live demo](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/SFvsNY.jpg)](http://dmitra.com/vis/cityweather)
+## Live Demo
+[Click on image for live demo ![Live demo](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/SFvsNY.jpg)](http://daviste.com/vis/cityweather)
 
-##Feature
+## Feature
   + weather visualization
     + Temperature
       + Bar for min, max
@@ -20,8 +20,8 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
   + responsive
   - optimized for mobile
 
-##Roadmap
-###Visualize
+## Roadmap
+### Visualize
   - Precipitation
   * Wind/Air stagnation
     * speed: peak, avg
@@ -32,12 +32,12 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
     * daylight/night time
     * sunshine/cloudy
 
-####Interactive
+#### Interactive
   - default city should be defined by detecting browser geo-location
   - search by geocode
   - Realtime visualizaion on daily data from NOAA
 
-###Improvement
+### Improvement
   - highlight selected points on map
   - Calibrate temperature colors
   - show about info (year)

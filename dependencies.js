@@ -1,5 +1,0 @@
-require('d3')
-require('d3-transform')
-window._ = require('lodash')
-require('leaflet')
-require('leaflet.markercluster')
