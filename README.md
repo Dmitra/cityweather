@@ -3,8 +3,9 @@ A beautiful weather data shows you what it feels like in different places all ov
 
 Choose climate station on the map and see the weather shot. It consists of 365 bars laying on the temperature scale. Bar base (closer to center) - is lowest day temperature, and top - highest. The color of bar shows the mean.
 
-## Live Demo
-[Click on image for live demo ![Live demo](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/SFvsNY.jpg)](http://daviste.com/vis/cityweather)
+## [Live demo](http://daviste.com/demo/cityweather)
+
+[![](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/SFvsNY.jpg)](http://daviste.com/demo/cityweather)
 
 ## Feature
   + weather visualization

@@ -18,8 +18,8 @@
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
     "start": "webpack-dev-server --config webpack.config.babel.js --port 8000",
-    "deploy": "rsync -azP dist/ data image dmitra@daviste.com:/home/dmitra/vis/cityweather",
-    "build": "webpack"
+    "deploy": "rsync -azP --delete dist/ index.html data image daviste.com:/home/dmitra/daviste.com/static/vis/cityweather",
+    "build": "webpack --mode=production"
   },
   "babel": {
     "presets": [
