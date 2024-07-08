@@ -5,25 +5,24 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
 
 ## [Live demo](http://daviste.com/demo/cityweather)
 
-[![](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/SFvsNY.jpg)](http://daviste.com/demo/cityweather)
+[![](https://raw.githubusercontent.com/Dmitra/cityweather/master/snapshot/YYCvsLAX.png)](http://daviste.com/demo/cityweather/#/CA003031092/USW00023174)
 
 ## Feature
   + weather visualization
     + Temperature
       + Bar for min, max
-      + Graph for average
+      + Dot for daily average
       + Color coding for average
+      + circle for precipitation
   + prepared data from NOAA
   + city selection on the map
   + visualization transformation on city selection
   + Comparison visualization
   + clustering of points on the map
-  + responsive
-  - optimized for mobile
+  + optimized for mobile
 
 ## Roadmap
 ### Visualize
-  - Precipitation
   * Wind/Air stagnation
     * speed: peak, avg
     * direction (avg) 
@@ -36,16 +35,12 @@ Choose climate station on the map and see the weather shot. It consists of 365 b
 #### Interactive
   - default city should be defined by detecting browser geo-location
   - search by geocode
-  - Realtime visualizaion on daily data from NOAA
+  - responsive
+  - Realtime visualization on daily data from NOAA
 
 ### Improvement
-  - highlight selected points on map
   - Calibrate temperature colors
   - show about info (year)
 
-  - ? remove stations without TMIN, TMAX, PRCP
   - optimize chart size for various screens
-  - switch places for compared cities
-  - Choose font for visualization
   - limit map pan on world view (smallest zoom)
-  - design better UI controls

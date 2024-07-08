@@ -1,0 +1,44 @@
+@import "./markerCluster.css";
+
+:root {
+  --bg: #ccc;
+  --primary-color: #333;
+  --secondary-color: #aaa;
+  --inverse-color: #fff;
+  --dark: #12afc0;
+  --dark2: #2b5877;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Jura;
+  font-size: calc(14px + .2vw);
+  color: var(--primary-color);
+}
+
+footer {
+  position: fixed;
+  height: 22px;
+  bottom: 0px;
+  line-height: 1.4em;
+  background: white;
+  padding: 0 16px;
+  width: 50vw;
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    text-align: center;
+    padding: 0;
+  }
+}
+
+#menu {
+  position: fixed;
+  right: 0px;
+  background-color: var(--bg);
+  z-index: 1;
+}

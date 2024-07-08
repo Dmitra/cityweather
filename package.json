@@ -1,11 +1,11 @@
 {
   "name": "cityweather",
-  "version": "0.0.3",
-  "description": "Visualization of year city weather data",
+  "version": "0.1.0",
+  "description": "Year-round city weather visualization",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.org/Dmitra/cityweather.git"
+    "url": "git://github.com/Dmitra/cityweather.git"
   },
   "keywords": [
     "weather",
@@ -13,52 +13,38 @@
     "data visualisation",
     "statistics"
   ],
-  "author": "Dmitra",
+  "type": "module",
+  "author": "Adrian Dmitra",
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
-    "start": "webpack-dev-server --config webpack.config.babel.js --port 8000",
-    "deploy": "rsync -azP --delete dist/ index.html data image daviste.com:/home/dmitra/daviste.com/static/vis/cityweather",
-    "build": "webpack --mode=production"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": [
-              "last 2 versions"
-            ],
-            "node": "current"
-          }
-        }
-      ]
-    ]
+    "start": "vite",
+    "preview": "vite preview",
+    "deploy": "rsync -azP --delete dist/ index.html data asset daviste.com:/home/dmitra/daviste.com/static/demo/cityweather",
+    "build": "vite build"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/enriqueta": "^5.0.19",
+    "@fontsource/jura": "^5.0.19",
+    "@fontsource/quicksand": "^5.0.17",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
+    "@reduxjs/toolkit": "^2.2.3",
     "d3": "^3.5.1",
-    "eventemitter3": "^4.0.0",
-    "leaflet": "^1.5.1",
-    "leaflet.markercluster": "^1.4.1",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster.esm": "^0.1.0",
     "lodash": "4.17.15",
-    "plusjs": "https://github.com/Dmitra/plusjs.git"
+    "react": "^18.2.0",
+    "react-dom": "^18.0.0",
+    "react-redux": "^9.1.1",
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5",
-    "@graphiy/eslint-config": "^0.1.0",
-    "bourbon": "^6.0.0",
-    "css-loader": "^3.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite-plugin-static-copy": "^1.0.4",
     "eslint": "^6.3.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
-    "url-loader": "2.1.0",
-    "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.3",
-    "webpack-dev-server": "^3.1.4"
+    "vite": "^5.2.8"
   }
 }

@@ -2,6 +2,6 @@ node_modules
 npm-debug.log
 dist/*
 data/*
-!data/stations.csv
-!data/2014/USW00023272.csv
-!data/2014/CA006016295.csv
+.idea/
+temp/
+.DS_Store

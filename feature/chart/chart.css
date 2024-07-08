@@ -1,0 +1,90 @@
+#chart {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.85);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .3s, opacity 0.3s ease-out;
+
+  #rayChart {
+    position: absolute;
+    top: 57px;
+
+    path, circle {
+      fill: none;
+      stroke: var(--bg);
+    }
+    .bar {
+      stroke-width: 2px;
+      stroke-linecap: round;
+      cursor: pointer;
+    }
+    .graphMediana, .gridLineTempGrid {
+      stroke: rgba(0, 0, 0, 0.21)
+    }
+    .TempGridEven circle, .TempGridOdd circle {
+      stroke-dashoffset: -4;
+      stroke: #E5E5E5;
+    }
+    .TempGridOdd circle {
+      stroke-width: 0.5px;
+    }
+    .label {
+      text-anchor: start;
+    }
+    .highlight {
+      stroke-width: 4px;
+    }
+    .tempAxis {
+      .tick {
+        line {
+          stroke-width: 0;
+        }
+        text {
+          text-anchor: middle !important;
+          paint-order: stroke;
+          stroke: white;
+          stroke-width: 8px;
+        }
+      }
+      .tick, .label {
+        font-size: 0.9em;
+      }
+      .domain {
+        stroke-width: 0;
+      }
+    }
+    .monthLabelSeparator .bar {
+      stroke-width: 1px;
+    }
+    .Precipitation .dot {
+      opacity: 0.2;
+    }
+  }
+
+  #legend {
+    position: fixed;
+    top: 47%;
+    left: 47%;
+    font-size: 1.5em;
+    line-height: 1.2em;
+    height: 0px;
+  }
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .3s ease-in;
+  }
+
+  button {
+    position: absolute;
+    color: var(--primary-color);
+    bottom: 3em;
+    right: 3em;
+    width: 48px;
+    height: 48px;
+  }
+}
